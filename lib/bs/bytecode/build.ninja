@@ -1,21 +1,21 @@
 bs_package_flags = -bs-package-name reprocessing-example
-src_root_dir = /Users/shaddox/work/reason-dojo-01/reprocessing-example
-bsc = /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/bsb-native/lib/bsc.exe
-bsdep = /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/bsb-native/lib/bsb_helper.exe
+src_root_dir = /Users/shaddox/work/reason-dojo-01
+bsc = /Users/shaddox/work/reason-dojo-01/node_modules/bsb-native/lib/bsc.exe
+bsdep = /Users/shaddox/work/reason-dojo-01/node_modules/bsb-native/lib/bsb_helper.exe
 warnings = -w -30-40+6+7+27+32..39+44+45+101
-bsc_flags = -bs-D BSB_BACKEND="bytecode" -bs-D OS_TYPE="Darwin" -nostdlib -I '/Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/bsb-native/lib/ocaml' -color always -no-alias-deps
-ppx_flags = -ppx /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/bsb-native/lib/belt_bsppx.exe
-bs_package_includes = -I /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/bsb-native/lib/ocaml/bytecode -I /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/reprocessing/lib/ocaml/bytecode
+bsc_flags = -bs-D BSB_BACKEND="bytecode" -bs-D OS_TYPE="Darwin" -nostdlib -I '/Users/shaddox/work/reason-dojo-01/node_modules/bsb-native/lib/ocaml' -color always -no-alias-deps
+ppx_flags = -ppx /Users/shaddox/work/reason-dojo-01/node_modules/bsb-native/lib/belt_bsppx.exe
+bs_package_includes = -I /Users/shaddox/work/reason-dojo-01/node_modules/bsb-native/lib/ocaml/bytecode -I /Users/shaddox/work/reason-dojo-01/node_modules/reprocessing/lib/ocaml/bytecode
 bs_package_dev_includes = 
 namespace = 
-build_artifacts_dir = /Users/shaddox/work/reason-dojo-01/reprocessing-example
+build_artifacts_dir = /Users/shaddox/work/reason-dojo-01
 ocaml_flags = -thread   -no-alias-deps   -color   always
 ocaml_linker_flags = 
 bs_super_errors_ocamlfind = -bs-super-errors
 bs_super_errors = -bs-super-errors
-external_deps_for_linking = -I /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/sdl2/lib/ocaml/bytecode -I /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/Tsdl/lib/ocaml/bytecode -I /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/Tgls/lib/ocaml/bytecode -I /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/Reasongl/lib/ocaml/bytecode -I /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/reprocessing/lib/ocaml/bytecode
-ocamlc = /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/bsb-native/vendor/ocaml/ocamlc.opt
-ocamlopt = /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/bsb-native/vendor/ocaml/ocamlopt.opt
+external_deps_for_linking = -I /Users/shaddox/work/reason-dojo-01/node_modules/sdl2/lib/ocaml/bytecode -I /Users/shaddox/work/reason-dojo-01/node_modules/Tsdl/lib/ocaml/bytecode -I /Users/shaddox/work/reason-dojo-01/node_modules/Tgls/lib/ocaml/bytecode -I /Users/shaddox/work/reason-dojo-01/node_modules/Reasongl/lib/ocaml/bytecode -I /Users/shaddox/work/reason-dojo-01/node_modules/reprocessing/lib/ocaml/bytecode
+ocamlc = /Users/shaddox/work/reason-dojo-01/node_modules/bsb-native/vendor/ocaml/ocamlc.opt
+ocamlopt = /Users/shaddox/work/reason-dojo-01/node_modules/bsb-native/vendor/ocaml/ocamlopt.opt
 ocamlfind = 
 ocamlfind_dependencies = 
 ocaml_dependencies = -add-ocaml-dependency bigarray -add-ocaml-dependency dynlink -add-ocaml-dependency nums -add-ocaml-dependency str -add-ocaml-dependency threads -add-ocaml-dependency unix
@@ -24,11 +24,11 @@ bsb_helper_verbose =
 bsb_dir_group = 0
 bsc_group_1_includes = 
 bsc_group_2_includes = 
-refmt = /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/bsb-native/lib/refmt.exe
+refmt = /Users/shaddox/work/reason-dojo-01/node_modules/bsb-native/lib/refmt.exe
 reason_react_jsx = 
 refmt_flags = --print binary
-ocaml_lib_includes = -I /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/bsb-native/vendor/ocaml/lib/ocaml -I src
-bsc_lib_includes = -I /Users/shaddox/work/reason-dojo-01/reprocessing-example/node_modules/bsb-native/vendor/ocaml/lib/ocaml -I src
+ocaml_lib_includes = -I /Users/shaddox/work/reason-dojo-01/node_modules/bsb-native/vendor/ocaml/lib/ocaml -I src
+bsc_lib_includes = -I /Users/shaddox/work/reason-dojo-01/node_modules/bsb-native/vendor/ocaml/lib/ocaml -I src
 rule build_ast_and_module_sets_from_re_gen_simple
   command = ${bsc} -pp "${refmt} ${refmt_flags}" ${reason_react_jsx}  ${ppx_flags} ${bs_super_errors} ${warnings} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-simple-binary-ast -bs-binary-ast -impl ${in}
   description = [34mBuilding[39m [2m${out}[22m
