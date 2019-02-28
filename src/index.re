@@ -13,11 +13,8 @@ type stateT = {
   player: bodyT,
   asteroids: list(bodyT),
   bullets: list(bodyT),
+  lastBulletCreated: int,
 };
-
-let foo = bar => {
-  5;
-};  
 
 let makeInitialState = () => {
   let asteroids =
@@ -36,6 +33,7 @@ let makeInitialState = () => {
     },
     asteroids: Array.to_list(asteroids),
     bullets: [],
+    lastBulletCreated: 0,
   };
 };
 
@@ -108,7 +106,6 @@ let onLeft = (player, env) =>
 
 let onUp = (player, env) =>
   if (Env.key(Up, env)) {
-    {...player, angle: player.angle -. 0.1};
     let (dx, dy) = directionVector(player.angle);
     let (x, y) = player.vel;
     {...player, vel: (x +. dx, y +. dy)};
@@ -118,16 +115,30 @@ let onUp = (player, env) =>
 
 let scaleVec = ((x, y), ~by) => (by *. x, by *. y);
 
-let onSpace = (player, env): option(bodyT) =>
+let onSpace = (state, env) => {
+  let player = state.player;
   if (Env.key(Space, env)) {
-    Some({
-      pos: player.pos,
-      vel: scaleVec(directionVector(player.angle), ~by=20.),
-      angle: 0.,
-    });
+    let frameCount = Env.frameCount(env);
+    print_endline(string_of_int(frameCount));
+    print_endline(string_of_int(state.lastBulletCreated));
+    if (frameCount - state.lastBulletCreated > 20) {
+      let newBullet = {
+        pos: player.pos,
+        vel: scaleVec(directionVector(player.angle), ~by=20.),
+        angle: 0.,
+      };
+      {
+        ...state,
+        lastBulletCreated: frameCount,
+        bullets: [newBullet, ...state.bullets],
+      };
+    } else {
+      state;
+    };
   } else {
-    None;
+    state;
   };
+};
 
 let wrap = x => x > sizef ? 0. : x < 0. ? sizef : x;
 let wrap = ((x, y)) => (wrap(x), wrap(y));
@@ -139,13 +150,8 @@ let updatePos = body => {
 };
 
 let updateBullets = (state, env) => {
-  let bullets =
-    switch (onSpace(state.player, env)) {
-    | None => state.bullets
-    | Some(bullet) => [bullet, ...state.bullets]
-    };
-  let bullets = bullets |> List.map(updatePos);
-  {...state, bullets};
+  ...state,
+  bullets: state.bullets |> List.map(updatePos),
 };
 
 let draw = (state, env) => {
@@ -162,6 +168,7 @@ let draw = (state, env) => {
   let player = onLeft(player, env);
   let player = onUp(player, env);
   let player = updatePos(player);
+  let state = onSpace(state, env);
   let state = updateBullets(state, env);
   let asteroids =
     asteroids
