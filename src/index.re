@@ -9,10 +9,15 @@ type bodyT = {
   angle: float,
 };
 
+type bulletT = {
+  created: int,
+  body: bodyT,
+};
+
 type stateT = {
   player: bodyT,
   asteroids: list(bodyT),
-  bullets: list(bodyT),
+  bullets: list(bulletT),
   lastBulletCreated: int,
 };
 
@@ -73,7 +78,7 @@ let drawAsteroid = (asteroid, env) => {
 };
 
 let drawBullet = (bullet, env) => {
-  let (x, y) = bullet.pos;
+  let (x, y) = bullet.body.pos;
   Draw.pushMatrix(env);
   Draw.translate(~x, ~y, env);
   Draw.ellipsef(~center=(0.0, 0.0), ~radx=1., ~rady=1., env);
@@ -119,13 +124,15 @@ let onSpace = (state, env) => {
   let player = state.player;
   if (Env.key(Space, env)) {
     let frameCount = Env.frameCount(env);
-    print_endline(string_of_int(frameCount));
-    print_endline(string_of_int(state.lastBulletCreated));
-    if (frameCount - state.lastBulletCreated > 20) {
+    /* Allow a bullet every 15 frames. */
+    if (frameCount - state.lastBulletCreated > 15) {
       let newBullet = {
-        pos: player.pos,
-        vel: scaleVec(directionVector(player.angle), ~by=20.),
-        angle: 0.,
+        created: frameCount,
+        body: {
+          pos: player.pos,
+          vel: scaleVec(directionVector(player.angle), ~by=20.),
+          angle: 0.,
+        },
       };
       {
         ...state,
@@ -149,9 +156,19 @@ let updatePos = body => {
   {...body, pos: (x +. dx, y +. dy) |> wrap};
 };
 
+let updateBulletPos = bullet => {...bullet, body: updatePos(bullet.body)};
+
+let filterBullets = (bullets, env) => {
+  /* Remove bullets that are over 300 frames old. */
+  let frameCount = Env.frameCount(env);
+  bullets |> List.filter(bullet => frameCount - bullet.created < 30 * 10);
+};
+
 let updateBullets = (state, env) => {
-  ...state,
-  bullets: state.bullets |> List.map(updatePos),
+  let bullets = state.bullets;
+  let bullets = bullets |> List.map(updateBulletPos);
+  let bullets = filterBullets(bullets, env);
+  {...state, bullets};
 };
 
 let draw = (state, env) => {
@@ -172,7 +189,12 @@ let draw = (state, env) => {
   let state = updateBullets(state, env);
   let asteroids =
     asteroids
-    |> List.filter(a => !(state.bullets |> List.exists(collidesWith(a))));
+    |> List.filter(a =>
+         !(
+           state.bullets
+           |> List.exists(bullet => collidesWith(bullet.body, a))
+         )
+       );
   if (asteroids |> List.exists(collidesWith(player))) {
     makeInitialState();
   } else {
@@ -180,4 +202,4 @@ let draw = (state, env) => {
   };
 };
 
-run(~setup, ~draw, ~mouseDown=(_, env) => makeInitialState(), ());
+run(~setup, ~draw, ~mouseDown=(_, _env) => makeInitialState(), ());
