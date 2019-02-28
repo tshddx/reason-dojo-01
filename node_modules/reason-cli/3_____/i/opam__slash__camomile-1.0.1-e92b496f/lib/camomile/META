@@ -1,0 +1,50 @@
+version = "1.0.1"
+description = ""
+requires = "camomile.default_config
+            camomile.dyn
+            camomile.lib_default
+            camomile.library"
+archive(byte) = "camomile_yuge.cma"
+archive(native) = "camomile_yuge.cmxa"
+plugin(byte) = "camomile_yuge.cma"
+plugin(native) = "camomile_yuge.cmxs"
+package "default_config" (
+  directory = "default_config"
+  version = "1.0.1"
+  description = ""
+  requires = ""
+  archive(byte) = "camomileDefaultConfig.cma"
+  archive(native) = "camomileDefaultConfig.cmxa"
+  plugin(byte) = "camomileDefaultConfig.cma"
+  plugin(native) = "camomileDefaultConfig.cmxs"
+)
+package "dyn" (
+  directory = "dyn"
+  version = "1.0.1"
+  description = ""
+  requires = "camomile.lib_default"
+  archive(byte) = "camomileLibraryDyn.cma"
+  archive(native) = "camomileLibraryDyn.cmxa"
+  plugin(byte) = "camomileLibraryDyn.cma"
+  plugin(native) = "camomileLibraryDyn.cmxs"
+)
+package "lib_default" (
+  directory = "lib_default"
+  version = "1.0.1"
+  description = ""
+  requires = "camomile.default_config camomile.library"
+  archive(byte) = "camomileLibraryDefault.cma"
+  archive(native) = "camomileLibraryDefault.cmxa"
+  plugin(byte) = "camomileLibraryDefault.cma"
+  plugin(native) = "camomileLibraryDefault.cmxs"
+)
+package "library" (
+  directory = "library"
+  version = "1.0.1"
+  description = ""
+  requires = "bigarray camomile.default_config"
+  archive(byte) = "camomileLibrary.cma"
+  archive(native) = "camomileLibrary.cmxa"
+  plugin(byte) = "camomileLibrary.cma"
+  plugin(native) = "camomileLibrary.cmxs"
+)

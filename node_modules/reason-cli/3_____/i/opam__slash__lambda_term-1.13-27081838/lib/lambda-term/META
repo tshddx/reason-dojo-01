@@ -1,0 +1,7 @@
+version = "1.13"
+description = "Cross-platform library for terminal manipulation"
+requires = "lwt lwt.unix lwt_log lwt_react zed"
+archive(byte) = "lambda_term.cma"
+archive(native) = "lambda_term.cmxa"
+plugin(byte) = "lambda_term.cma"
+plugin(native) = "lambda_term.cmxs"
